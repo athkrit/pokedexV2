@@ -23,6 +23,8 @@ import com.example.pokedex.manager.PokemonNameManager;
 import com.example.pokedex.manager.http.ApiService;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,6 +41,8 @@ public class MainFragment extends Fragment {
     Boolean loading = false;
     RecyclerViewAdapter recyclerViewAdapter;
     RecyclerView.LayoutManager layoutManager;
+    ArrayList<String> pokemonPictureNumber;
+
 
     public MainFragment() {
         super();
@@ -90,7 +94,13 @@ public class MainFragment extends Fragment {
         Call<PokemonCollectionDao> call = HttpManager.getInstance().getService().loadPokemonName(pokemonCount, 20);
 
         call.enqueue(new PokemonNameLoadCallBack(PokemonNameLoadCallBack.MODE_RELOAD));
+        pokemonPictureNumber = new ArrayList<>();
 
+        for(Integer count =0 ; count<=964 ; count++){
+            pokemonPictureNumber.add(count.toString());
+        }
+        recyclerViewAdapter.setContext(getContext());
+        recyclerViewAdapter.setPokemonPictureNumber(pokemonPictureNumber);
         recyclerView.setAdapter(recyclerViewAdapter);
         recyclerView.addOnScrollListener(onScrollAdd);
     }
