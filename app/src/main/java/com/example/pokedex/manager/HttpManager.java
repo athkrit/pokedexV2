@@ -26,15 +26,18 @@ public class HttpManager {
     private ApiService service;
 
     private HttpManager() {
-        mContext = Contextor.getInstance().getContext();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://pokeapi.co/api/v2/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-        service = retrofit.create(ApiService.class);
+
     }
 
+
     public ApiService getService() {
-        return service;
+
+            mContext = Contextor.getInstance().getContext();
+            Retrofit retrofit = new Retrofit.Builder()
+                    .baseUrl("https://pokeapi.co/api/v2/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+            service = retrofit.create(ApiService.class);
+            return service;
     }
 }

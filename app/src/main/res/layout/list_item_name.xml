@@ -13,6 +13,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:src="@drawable/pokeball"
                 android:id="@+id/imgView"
                 android:scaleType="fitCenter"
                 android:layout_width="50dp"
@@ -26,8 +27,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="4"
                 android:text="Name Name"
-                android:textColor="#000000"
-                android:textSize="24dp" />
+                style="@style/FontNameSize" />
         </LinearLayout>
 
 

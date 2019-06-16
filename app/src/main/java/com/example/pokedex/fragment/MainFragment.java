@@ -91,7 +91,10 @@ public class MainFragment extends Fragment {
 
         pokemonCount = PokemonNameManager.getInstance().getCount();
 
-        Call<PokemonCollectionDao> call = HttpManager.getInstance().getService().loadPokemonName(pokemonCount, 20);
+        Call<PokemonCollectionDao> call = HttpManager
+                .getInstance()
+                .getService()
+                .loadPokemonName(pokemonCount, 20);
 
         call.enqueue(new PokemonNameLoadCallBack(PokemonNameLoadCallBack.MODE_RELOAD));
         pokemonPictureNumber = new ArrayList<>();

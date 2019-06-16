@@ -129,7 +129,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             Glide.with(Contextor.getInstance().getContext())
                     .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+pokemonPictureNumber.get(position+1)+".png")
                     .format(PREFER_ARGB_8888)
+                    .fitCenter()
                     .into(imageView);
+            if(imageView.getDrawable() == null){
+                imageView.setImageResource(R.drawable.pokeball);
+            }
         }
     }
 
