@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +43,7 @@ public class MainFragment extends Fragment {
     RecyclerViewAdapter recyclerViewAdapter;
     RecyclerView.LayoutManager layoutManager;
     ArrayList<String> pokemonPictureNumber;
+    ProgressBar progressBar;
 
 
     public MainFragment() {
@@ -80,7 +82,7 @@ public class MainFragment extends Fragment {
     @SuppressWarnings("UnusedParameters")
     private void initInstances(View rootView, Bundle savedInstanceState) {
         // Init 'View' instance(s) with rootView.findViewById here
-
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressbar);
         layoutManager = new LinearLayoutManager(getActivity());
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
@@ -113,6 +115,7 @@ public class MainFragment extends Fragment {
             return;
         loading = true;
         if (pokemonCount <= 940) {
+            progressBar.setVisibility(View.VISIBLE);
             PokemonNameManager.getInstance().setCount(pokemonCount + 20);
             Log.d("loading", "loaddddddd" + String.valueOf(pokemonCount));
             Call<PokemonCollectionDao> call = HttpManager
@@ -122,6 +125,7 @@ public class MainFragment extends Fragment {
             call.enqueue(new PokemonNameLoadCallBack(PokemonNameLoadCallBack.MODE_LOAD_MORE));
         }
     }
+
     RecyclerView.OnScrollListener onScrollAdd = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -194,12 +198,14 @@ public class MainFragment extends Fragment {
                     PokemonNameManager.getInstance().setDao(dao);
                 }
                 recyclerViewAdapter.notifyDataSetChanged();
-
+                progressBar.setVisibility(View.INVISIBLE);
 //                    recyclerViewAdapter.setDao(dao);
 //                recyclerView.notifyAll();
 
             } else {
                 loading = false;
+                progressBar.setVisibility(View.INVISIBLE);
+
             }
         }
 
@@ -207,6 +213,8 @@ public class MainFragment extends Fragment {
         public void onFailure(Call<PokemonCollectionDao> call,
                               Throwable t) {
             loading = false;
+
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 

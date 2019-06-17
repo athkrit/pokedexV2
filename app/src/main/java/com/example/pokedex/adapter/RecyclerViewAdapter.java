@@ -116,7 +116,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     class Holder extends RecyclerView.ViewHolder {
-        TextView tvPokemonName, tvPokemonUrl;
+        TextView tvPokemonName;
         ImageView imageView;
         ProgressBar progressBar;
 
@@ -129,7 +129,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         public void setItem(int position) {
             tvPokemonName.setText(PokemonNameManager.getInstance().getDao().getResults().get(position).getName());
-
             Glide.with(Contextor.getInstance().getContext())
                     .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemonPictureNumber.get(position + 1) + ".png")
                     .format(PREFER_ARGB_8888)
@@ -140,5 +139,4 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
         }
     }
-
 }

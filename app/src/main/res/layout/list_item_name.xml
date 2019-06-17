@@ -2,31 +2,35 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="8dp"
-    android:background="#ffffff">
+    android:layout_height="80dp"
+android:padding="4dp"
+    >
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:padding="10dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <ImageView
+                android:layout_gravity="center_vertical"
                 android:id="@+id/imgView"
                 android:scaleType="fitCenter"
-                android:layout_width="50dp"
-                android:layout_height="50dp" />
+                android:layout_width="70dp"
+                android:layout_height="70dp" />
 
             <TextView
                 android:padding="8dp"
                 android:id="@+id/tvPokemonName"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="4"
                 style="@style/FontNameSize" />
         </LinearLayout>
+    </android.support.v7.widget.CardView>
     <ProgressBar
         android:visibility="invisible"
         android:id="@+id/progressbar"
