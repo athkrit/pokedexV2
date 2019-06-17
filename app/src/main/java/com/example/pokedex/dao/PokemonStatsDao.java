@@ -7,36 +7,11 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class PokemonStatsDao implements Parcelable {
+public class PokemonStatsDao{
 
     @SerializedName("base_stat")    private Integer baseStat;
     @SerializedName("effort")       private Integer effort;
-
-    protected PokemonStatsDao(Parcel in) {
-        if (in.readByte() == 0) {
-            baseStat = null;
-        } else {
-            baseStat = in.readInt();
-        }
-        if (in.readByte() == 0) {
-            effort = null;
-        } else {
-            effort = in.readInt();
-        }
-        stat = in.createTypedArrayList(PokemonStatsNameDao.CREATOR);
-    }
-
-    public static final Creator<PokemonStatsDao> CREATOR = new Creator<PokemonStatsDao>() {
-        @Override
-        public PokemonStatsDao createFromParcel(Parcel in) {
-            return new PokemonStatsDao(in);
-        }
-
-        @Override
-        public PokemonStatsDao[] newArray(int size) {
-            return new PokemonStatsDao[size];
-        }
-    };
+    @SerializedName("stat")         private PokemonStatsNameDao stat;
 
     public Integer getBaseStat() {
         return baseStat;
@@ -54,35 +29,11 @@ public class PokemonStatsDao implements Parcelable {
         this.effort = effort;
     }
 
-    public List<PokemonStatsNameDao> getStat() {
+    public PokemonStatsNameDao getStat() {
         return stat;
     }
 
-    public void setStat(List<PokemonStatsNameDao> stat) {
+    public void setStat(PokemonStatsNameDao stat) {
         this.stat = stat;
-    }
-
-    @SerializedName("stat")         private List<PokemonStatsNameDao> stat;
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (baseStat == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(baseStat);
-        }
-        if (effort == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeInt(effort);
-        }
-        dest.writeTypedList(stat);
     }
 }

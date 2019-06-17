@@ -106,19 +106,19 @@ public class PokemonDetailCollectionDao {
         this.order = order;
     }
 
-    public List<Array> getSpecies() {
+    public Object getSpecies() {
         return species;
     }
 
-    public void setSpecies(List<Array> species) {
+    public void setSpecies(Object species) {
         this.species = species;
     }
 
-    public List<PokemonSpriteDao> getSprites() {
+    public PokemonSpriteDao getSprites() {
         return sprites;
     }
 
-    public void setSprites(List<PokemonSpriteDao> sprites) {
+    public void setSprites(PokemonSpriteDao sprites) {
         this.sprites = sprites;
     }
 
@@ -155,8 +155,8 @@ public class PokemonDetailCollectionDao {
     @SerializedName("moves")                        private List<Array> moves = null;
     @SerializedName("name")                         private String name;
     @SerializedName("order")                        private Integer order;
-    @SerializedName("species")                      private List<Array> species;
-    @SerializedName("sprites")                      private List<PokemonSpriteDao> sprites;
+    @SerializedName("species")                      private Object species;
+    @SerializedName("sprites")                      private PokemonSpriteDao sprites;
     @SerializedName("stats")                        private List<PokemonStatsDao> stats = null;
     @SerializedName("types")                        private List<PokemonTypeDao> types = null;
     @SerializedName("weight")                       private Integer weight;

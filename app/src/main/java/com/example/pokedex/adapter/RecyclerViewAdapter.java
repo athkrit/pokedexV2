@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +56,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.pokemonPictureNumber = pokemonPictureNumber;
     }
 
-    ArrayList<String > pokemonPictureNumber = new ArrayList<String>();
+    ArrayList<String> pokemonPictureNumber = new ArrayList<String>();
 
 
     @NonNull
@@ -73,6 +74,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PokemonDetailActivity.class);
+                intent.putExtra("pokemonName", PokemonNameManager.getInstance().getDao().getResults().get(i).getName());
                 context.startActivity(intent);
             }
         });
@@ -84,11 +86,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE: {
-                                Toast.makeText(Contextor.getInstance().getContext(),"Toast"+i,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Contextor.getInstance().getContext(), "Toast" + i, Toast.LENGTH_SHORT).show();
                                 PokemonNameManager.getInstance().getDao().getResults().remove(i);
                                 pokemonPictureNumber.remove(i);
                                 notifyItemRemoved(i);
-                                notifyItemRangeChanged(i,PokemonNameManager.getInstance().getDao().getResults().size());
+                                notifyItemRangeChanged(i, PokemonNameManager.getInstance().getDao().getResults().size());
                             }
                             case DialogInterface.BUTTON_NEGATIVE: {
                                 break;
@@ -116,22 +118,24 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     class Holder extends RecyclerView.ViewHolder {
         TextView tvPokemonName, tvPokemonUrl;
         ImageView imageView;
+        ProgressBar progressBar;
 
         public Holder(View itemView) {
             super(itemView);
             tvPokemonName = (TextView) itemView.findViewById(R.id.tvPokemonName);
             imageView = (ImageView) itemView.findViewById(R.id.imgView);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progressbar);
         }
 
         public void setItem(int position) {
             tvPokemonName.setText(PokemonNameManager.getInstance().getDao().getResults().get(position).getName());
 
             Glide.with(Contextor.getInstance().getContext())
-                    .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/"+pokemonPictureNumber.get(position+1)+".png")
+                    .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemonPictureNumber.get(position + 1) + ".png")
                     .format(PREFER_ARGB_8888)
                     .fitCenter()
                     .into(imageView);
-            if(imageView.getDrawable() == null){
+            if (imageView.getDrawable() == null) {
                 imageView.setImageResource(R.drawable.pokeball);
             }
         }

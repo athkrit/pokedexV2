@@ -186,7 +186,6 @@ public class MainFragment extends Fragment {
                                Response<PokemonCollectionDao> response) {
             if (response.isSuccessful()) {
                 PokemonCollectionDao dao = response.body();
-                Log.d("dataFromdb", dao.toString());
                 if (mode == MODE_LOAD_MORE) {
                     PokemonNameManager.getInstance().appendDaoAtTopPosition(dao);
                     loading = false;
