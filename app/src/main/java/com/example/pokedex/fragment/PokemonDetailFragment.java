@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.pokedex.R;
 import com.example.pokedex.dao.PokemonCollectionDao;
 import com.example.pokedex.dao.PokemonDetailCollectionDao;
@@ -174,6 +175,9 @@ public class PokemonDetailFragment extends Fragment {
 
     private void setView(String url, ImageView ivPosition) {
         Glide.with(Contextor.getInstance().getContext())
+                .applyDefaultRequestOptions(new RequestOptions()
+                        .placeholder(R.drawable.pokeball)
+                        .error(R.drawable.pokeball))
                 .load(url)
                 .format(PREFER_ARGB_8888)
                 .fitCenter()

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.pokedex.R;
 import com.example.pokedex.activity.MainActivity;
 import com.example.pokedex.activity.PokemonDetailActivity;
@@ -130,6 +131,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void setItem(int position) {
             tvPokemonName.setText(PokemonNameManager.getInstance().getDao().getResults().get(position).getName());
             Glide.with(Contextor.getInstance().getContext())
+                    .applyDefaultRequestOptions(new RequestOptions()
+                            .placeholder(R.drawable.pokeball)
+                            .error(R.drawable.pokeball))
                     .load("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + pokemonPictureNumber.get(position + 1) + ".png")
                     .format(PREFER_ARGB_8888)
                     .fitCenter()
