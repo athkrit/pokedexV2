@@ -134,9 +134,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     .format(PREFER_ARGB_8888)
                     .fitCenter()
                     .into(imageView);
-            if (imageView.getDrawable() == null) {
-                imageView.setImageResource(R.drawable.pokeball);
-            }
         }
     }
 }

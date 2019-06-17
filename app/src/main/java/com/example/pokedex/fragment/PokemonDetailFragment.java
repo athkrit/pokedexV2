@@ -124,10 +124,12 @@ public class PokemonDetailFragment extends Fragment {
                     }
                     tvType.setText("Type :" + pokemonTypes);
 
-                    setView(dao.getSprites().getBackDefault(), ivBottomRight);
-                    setView(dao.getSprites().getFrontDefault(), ivBottomLeft);
-                    setView(dao.getSprites().getBackShiny(), ivTopLeft);
-                    setView(dao.getSprites().getFrontShiny(), ivTopRight);
+
+                    setView(dao.getSprites().getFrontDefault(), ivTopLeft);
+                    setView(dao.getSprites().getBackDefault(), ivTopRight);
+                    setView(dao.getSprites().getFrontShiny(), ivBottomRight);
+                    setView(dao.getSprites().getBackShiny(), ivBottomLeft);
+
                     progressBar.setVisibility(View.INVISIBLE);
 
                 } else {
@@ -176,9 +178,6 @@ public class PokemonDetailFragment extends Fragment {
                 .format(PREFER_ARGB_8888)
                 .fitCenter()
                 .into(ivPosition);
-        if (ivPosition == null) {
-            ivPosition.setImageResource(R.drawable.pokeball);
-        }
     }
 
 }
