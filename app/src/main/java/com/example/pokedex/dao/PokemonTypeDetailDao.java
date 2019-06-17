@@ -6,10 +6,8 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 public class PokemonTypeDetailDao implements Parcelable {
-    @SerializedName("name")
-    private String name;
-    @SerializedName("url")
-    private String url;
+    @SerializedName("name")             private String name;
+    @SerializedName("url")              private String url;
 
     protected PokemonTypeDetailDao(Parcel in) {
         name = in.readString();

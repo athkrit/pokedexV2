@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +38,7 @@ public class PokemonDetailFragment extends Fragment {
     ImageView ivTopRight, ivTopLeft, ivBottomRight, ivBottomLeft;
     PokemonDetailCollectionDao dao;
     String pokemonTypes;
+    ProgressBar progressBar;
 
     public PokemonDetailFragment() {
         super();
@@ -74,6 +76,7 @@ public class PokemonDetailFragment extends Fragment {
 
     @SuppressWarnings("UnusedParameters")
     private void initInstances(View rootView, Bundle savedInstanceState) {
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressbar);
         tvPokemonName = (TextView) rootView.findViewById(R.id.tvPokemonName);
         tvType = (TextView) rootView.findViewById(R.id.tvType);
         tvAttack = (TextView) rootView.findViewById(R.id.tvAttack);
@@ -125,6 +128,7 @@ public class PokemonDetailFragment extends Fragment {
                     setView(dao.getSprites().getFrontDefault(), ivBottomLeft);
                     setView(dao.getSprites().getBackShiny(), ivTopLeft);
                     setView(dao.getSprites().getFrontShiny(), ivTopRight);
+                    progressBar.setVisibility(View.INVISIBLE);
 
                 } else {
                     Log.d("detailDao", "not success");
