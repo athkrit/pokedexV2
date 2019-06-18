@@ -89,64 +89,23 @@ public class MainFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
         recyclerViewAdapter = new RecyclerViewAdapter();
-        recyclerViewAdapter.setDao(PokemonNameManager.getInstance().getDao());
 
         pokemonCount = PokemonNameManager.getInstance().getCount();
-
-        Call<PokemonCollectionDao> call = HttpManager
-                .getInstance()
-                .getService()
-                .loadPokemonName(pokemonCount, 20);
-
-        call.enqueue(new PokemonNameLoadCallBack(PokemonNameLoadCallBack.MODE_RELOAD));
+        if (pokemonCount <= 20)
+            loadData();
         pokemonPictureNumber = new ArrayList<>();
 
-        for(Integer count =0 ; count<=964 ; count++){
+        for (Integer count = 0; count <= 964; count++) {
             pokemonPictureNumber.add(count.toString());
         }
         recyclerViewAdapter.setContext(getContext());
         recyclerViewAdapter.setPokemonPictureNumber(pokemonPictureNumber);
         recyclerView.setAdapter(recyclerViewAdapter);
+        Log.d("loadload", "finish2");
         recyclerView.addOnScrollListener(onScrollAdd);
+
     }
 
-    private void loadMoreData() {
-        if (loading)
-            return;
-        loading = true;
-        if (pokemonCount <= 940) {
-            progressBar.setVisibility(View.VISIBLE);
-            PokemonNameManager.getInstance().setCount(pokemonCount + 20);
-            Log.d("loading", "loaddddddd" + String.valueOf(pokemonCount));
-            Call<PokemonCollectionDao> call = HttpManager
-                    .getInstance()
-                    .getService()
-                    .loadPokemonName(PokemonNameManager.getInstance().getCount(), 20);
-            call.enqueue(new PokemonNameLoadCallBack(PokemonNameLoadCallBack.MODE_LOAD_MORE));
-        }
-    }
-
-    RecyclerView.OnScrollListener onScrollAdd = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            if (dy > 0) {
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int pastVisibleItem = ((LinearLayoutManager) layoutManager).findFirstCompletelyVisibleItemPosition();
-                if (visibleItemCount + pastVisibleItem >= totalItemCount) {
-                    pokemonCount = PokemonNameManager.getInstance().getCount();
-                    loadMoreData();
-                }
-            }
-        }
-
-    };
 
     @Override
     public void onStart() {
@@ -175,6 +134,53 @@ public class MainFragment extends Fragment {
         // Restore Instance State here
     }
 
+
+    private void loadMoreData() {
+        if (loading)
+            return;
+        loading = true;
+        if (pokemonCount <= 940) {
+            progressBar.setVisibility(View.VISIBLE);
+            PokemonNameManager.getInstance().setCount(pokemonCount + 20);
+            Log.d("loading", "loaddddddd" + String.valueOf(pokemonCount));
+            Call<PokemonCollectionDao> call = HttpManager
+                    .getInstance()
+                    .getService()
+                    .loadPokemonName(PokemonNameManager.getInstance().getCount(), 20);
+            call.enqueue(new PokemonNameLoadCallBack(PokemonNameLoadCallBack.MODE_LOAD_MORE));
+        }
+    }
+
+    private void loadData() {
+        Call<PokemonCollectionDao> call = HttpManager
+                .getInstance()
+                .getService()
+                .loadPokemonName(0, 20);
+        call.enqueue(new PokemonNameLoadCallBack(PokemonNameLoadCallBack.MODE_RELOAD));
+    }
+
+    RecyclerView.OnScrollListener onScrollAdd = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            if (dy > 0) {
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int pastVisibleItem = ((LinearLayoutManager) layoutManager).findFirstCompletelyVisibleItemPosition();
+                if (visibleItemCount + pastVisibleItem >= totalItemCount) {
+                    pokemonCount = PokemonNameManager.getInstance().getCount();
+                    loadMoreData();
+                }
+            }
+        }
+    };
+
+
     class PokemonNameLoadCallBack implements Callback<PokemonCollectionDao> {
         public static final int MODE_RELOAD = 1;
         public static final int MODE_LOAD_MORE = 2;
@@ -194,13 +200,10 @@ public class MainFragment extends Fragment {
                     PokemonNameManager.getInstance().appendDaoAtTopPosition(dao);
                     loading = false;
                 } else {
-
                     PokemonNameManager.getInstance().setDao(dao);
                 }
                 recyclerViewAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.INVISIBLE);
-//                    recyclerViewAdapter.setDao(dao);
-//                recyclerView.notifyAll();
 
             } else {
                 loading = false;

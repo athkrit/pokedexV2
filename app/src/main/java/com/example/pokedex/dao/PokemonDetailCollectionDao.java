@@ -1,14 +1,62 @@
 package com.example.pokedex.dao;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.lang.reflect.Array;
 import java.util.List;
 
-public class PokemonDetailCollectionDao {
+public class PokemonDetailCollectionDao implements Parcelable {
     @SerializedName("abilities")                    private List<Array> abilities = null;
     @SerializedName("base_experience")              private Integer baseExperience;
     @SerializedName("forms")                        private List<Array> forms = null;
+
+    protected PokemonDetailCollectionDao(Parcel in) {
+        if (in.readByte() == 0) {
+            baseExperience = null;
+        } else {
+            baseExperience = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            height = null;
+        } else {
+            height = in.readInt();
+        }
+        if (in.readByte() == 0) {
+            id = null;
+        } else {
+            id = in.readInt();
+        }
+        byte tmpIsDefault = in.readByte();
+        isDefault = tmpIsDefault == 0 ? null : tmpIsDefault == 1;
+        locationAreaEncounters = in.readString();
+        name = in.readString();
+        if (in.readByte() == 0) {
+            order = null;
+        } else {
+            order = in.readInt();
+        }
+        sprites = in.readParcelable(PokemonSpriteDao.class.getClassLoader());
+        if (in.readByte() == 0) {
+            weight = null;
+        } else {
+            weight = in.readInt();
+        }
+    }
+
+    public static final Creator<PokemonDetailCollectionDao> CREATOR = new Creator<PokemonDetailCollectionDao>() {
+        @Override
+        public PokemonDetailCollectionDao createFromParcel(Parcel in) {
+            return new PokemonDetailCollectionDao(in);
+        }
+
+        @Override
+        public PokemonDetailCollectionDao[] newArray(int size) {
+            return new PokemonDetailCollectionDao[size];
+        }
+    };
 
     public List<Array> getAbilities() {
         return abilities;
@@ -160,4 +208,47 @@ public class PokemonDetailCollectionDao {
     @SerializedName("stats")                        private List<PokemonStatsDao> stats = null;
     @SerializedName("types")                        private List<PokemonTypeDao> types = null;
     @SerializedName("weight")                       private Integer weight;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        if (baseExperience == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(baseExperience);
+        }
+        if (height == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(height);
+        }
+        if (id == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(id);
+        }
+        parcel.writeByte((byte) (isDefault == null ? 0 : isDefault ? 1 : 2));
+        parcel.writeString(locationAreaEncounters);
+        parcel.writeString(name);
+        if (order == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(order);
+        }
+        parcel.writeParcelable(sprites, i);
+        if (weight == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(weight);
+        }
+    }
 }

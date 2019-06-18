@@ -29,15 +29,6 @@ import java.util.ArrayList;
 import static com.bumptech.glide.load.DecodeFormat.PREFER_ARGB_8888;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.Holder> {
-    public PokemonCollectionDao getDao() {
-        return dao;
-    }
-
-    public void setDao(PokemonCollectionDao dao) {
-        this.dao = dao;
-    }
-
-    PokemonCollectionDao dao;
 
     public Context getContext() {
         return context;
@@ -71,7 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull Holder holder, final int i) {
         holder.setItem(i);
-        holder.tvPokemonName.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PokemonDetailActivity.class);
@@ -79,7 +70,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 context.startActivity(intent);
             }
         });
-        holder.tvPokemonName.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
@@ -87,7 +78,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE: {
-                                Toast.makeText(Contextor.getInstance().getContext(), "Toast" + i, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Contextor.getInstance().getContext()
+                                        , "Delete " + PokemonNameManager.getInstance().getDao().getResults().get(i).getName()
+                                        , Toast.LENGTH_SHORT).show();
                                 PokemonNameManager.getInstance().getDao().getResults().remove(i);
                                 pokemonPictureNumber.remove(i);
                                 notifyItemRemoved(i);
