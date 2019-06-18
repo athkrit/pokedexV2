@@ -141,8 +141,8 @@ public class MainFragment extends Fragment {
         loading = true;
         if (pokemonCount <= 940) {
             progressBar.setVisibility(View.VISIBLE);
-            PokemonNameManager.getInstance().setCount(pokemonCount + 20);
-            Log.d("loading", "loaddddddd" + String.valueOf(pokemonCount));
+            pokemonCount += 20;
+            PokemonNameManager.getInstance().setCount(pokemonCount);
             Call<PokemonCollectionDao> call = HttpManager
                     .getInstance()
                     .getService()

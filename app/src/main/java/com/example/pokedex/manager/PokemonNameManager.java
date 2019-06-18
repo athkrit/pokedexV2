@@ -64,9 +64,7 @@ public class PokemonNameManager {
         if (dao != null && dao.getResults() != null)
             cacheDao.setResults(dao.getResults().subList(0, Math.min(20, dao.getResults().size())));
         String json = new Gson().toJson(cacheDao);
-        SharedPreferences prefs = mContext.getSharedPreferences("" +
-                        "photos",
-                Context.MODE_PRIVATE);
+        SharedPreferences prefs = mContext.getSharedPreferences("pokemonName",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         //add delete
         editor.putString("json", json);
@@ -74,9 +72,7 @@ public class PokemonNameManager {
     }
 
     private void loadCache() {
-        SharedPreferences prefs = mContext.getSharedPreferences("" +
-                        "photos",
-                Context.MODE_PRIVATE);
+        SharedPreferences prefs = mContext.getSharedPreferences("pokemonName",Context.MODE_PRIVATE);
         String json = prefs.getString("json", null);
         if (json == null)
             return;
